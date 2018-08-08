@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class TraditionalEconomy extends JavaPlugin {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private static final Logger logger = Logger.getLogger("Minecraft");
     private static Permission permission = null;
     private static Economy economy = null;
 
@@ -21,14 +21,14 @@ public class TraditionalEconomy extends JavaPlugin {
     @Override
     public void onEnable () {
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
-            log.info(String.format("Vault Detected!"));
+            logger.info(String.format("Vault Detected!"));
             setEconomy();
             setPermission();
             setConfigManager();
 
             configManager.loadConfig();
         } else {
-            log.warning(String.format("Can not detect Valut, please make sure you do install Valut!"));
+            logger.warning(String.format("Can not detect Valut, please make sure you do install Valut!"));
             getServer().getPluginManager().disablePlugin(this);
         }
     }
@@ -42,6 +42,10 @@ public class TraditionalEconomy extends JavaPlugin {
     }
 
     // Custom Methods
+    public static Logger _getLogger () {
+        return logger;
+    }
+
     public static Economy getEconomy () {
         return economy;
     }

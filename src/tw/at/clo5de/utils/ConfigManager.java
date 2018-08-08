@@ -1,14 +1,13 @@
 package tw.at.clo5de.utils;
 
-import com.kunyihua.crafte.api.Bukkit.BukkitKyctAPI;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import tw.at.clo5de.Currency;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigManager {
 
@@ -30,16 +29,12 @@ public class ConfigManager {
 
     private boolean loadCurrency () {
         this.config.addDefault("KycCurrency", Arrays.asList());
-        List<String> list = (List<String>)this.config.getList("KycCurrency");
+        List list = this.config.getList("KycCurrency");
         if (list.size() == 0) {
 
         } else {
-            BukkitKyctAPI kycAPI = new BukkitKyctAPI();
-            for (String str : list) {
-                ItemStack thisStack = kycAPI.getItemByItemKey(str),
-                          nextStack = kycAPI.getItemByItemKey(this.config.getString("KycCurrency." + str + ".NextCurrency")),
-                          prevStack = kycAPI.getItemByItemKey(this.config.getString("KycCurrency." + str + ".PrevCurrency"));
-                this.currencys.add(new Currency(thisStack, nextStack, prevStack));
+            for (int i = 0; i < list.size(); ++i) {
+                this.currencys.add(new Currency((Map) list.get(i)));
             }
         }
         return false;
