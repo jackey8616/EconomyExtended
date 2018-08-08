@@ -1,0 +1,6 @@
+name: TraditionalEconomy
+version: 0.0.0
+author: clo5de
+main: tw.at.clo5de.TraditionalEconomy
+depend: [ Vault, Kycraft ]
+load: STARTUP
