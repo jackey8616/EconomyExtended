@@ -165,9 +165,10 @@ public class Handler implements Listener {
                 getTopStack(c.getThisItemStack(), chainList);
                 // this.chains.add(new CurrencyChain(chainList));
                 chain = new CurrencyChain(chainList);
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 }

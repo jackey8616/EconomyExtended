@@ -1,20 +1,17 @@
 package tw.at.clo5de.currency;
 
-import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing;
-import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
-import sun.util.resources.zh.CurrencyNames_zh_CN;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CurrencyChain {
 
     private ArrayList<Currency> currencies = new ArrayList<>();
-    private Map<Long, Currency> amountMap = new HashMap<>();
+    private Map<Long, Currency> amountMap = new LinkedHashMap<>();
 
     public CurrencyChain (ArrayList<Currency> list) {
         this.currencies = list;
@@ -40,6 +37,7 @@ public class CurrencyChain {
     public List<ItemStack> getEqualCurrency (long amount) {
         ArrayList<ItemStack> list = new ArrayList<>();
         ArrayList<Long> reverse = new ArrayList<>(amountMap.keySet());
+
         for (int i = reverse.size() - 1; i >= 0; i--) {
             long mapAmount = reverse.get(i);
             if (mapAmount <= amount) {
