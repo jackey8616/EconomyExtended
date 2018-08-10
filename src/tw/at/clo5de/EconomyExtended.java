@@ -4,33 +4,44 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import tw.at.clo5de.utils.ConfigManager;
 
 import java.util.logging.Logger;
 
-public class TraditionalEconomy extends JavaPlugin {
+public class EconomyExtended extends JavaPlugin {
 
-    private static final Logger logger = Logger.getLogger("Minecraft");
-    private static Permission permission = null;
-    private static Economy economy = null;
+    public static EconomyExtended INSTANCE;
+    private final Logger logger = Logger.getLogger("Minecraft");
+    private Permission permission = null;
+    private Economy economy = null;
 
-    private static ConfigManager configManager = null;
+    private ConfigManager configManager = null;
+    private tw.at.clo5de.currency.Handler currencyHandler = null;
 
     @Override
     public void onEnable () {
-        if (getServer().getPluginManager().getPlugin("Vault") != null) {
-            logger.info(String.format("Vault Detected!"));
+        INSTANCE = this;
+        if (getServer().getPluginManager().getPlugin("Kycraft") == null) {
+            logger.warning("Kycraft is needed! Please make sure your server install it.");
+            getServer().getPluginManager().disablePlugin(this);
+        } else {
+            setConfigManager();
+            configManager.loadConfig();
+        }
+
+
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            logger.warning("Can not detect Vault, Please make sure you do install a Economy plugin support Vault.");
+            getServer().getPluginManager().disablePlugin(this);
+        } else {
+            logger.info("Vault detected, Try to load Vault Economy plugin.");
             setEconomy();
             setPermission();
-            setConfigManager();
-
-            configManager.loadConfig();
-        } else {
-            logger.warning(String.format("Can not detect Valut, please make sure you do install Valut!"));
-            getServer().getPluginManager().disablePlugin(this);
         }
+
     }
 
     @Override
@@ -42,11 +53,11 @@ public class TraditionalEconomy extends JavaPlugin {
     }
 
     // Custom Methods
-    public static Logger _getLogger () {
+    public Logger _getLogger () {
         return logger;
     }
 
-    public static Economy getEconomy () {
+    public Economy getEconomy () {
         return economy;
     }
 
@@ -59,7 +70,7 @@ public class TraditionalEconomy extends JavaPlugin {
         return economy != null;
     }
 
-    public static Permission getPermission () {
+    public Permission getPermission () {
         return permission;
     }
 
@@ -72,12 +83,21 @@ public class TraditionalEconomy extends JavaPlugin {
         return permission != null;
     }
 
-    public static ConfigManager getConfigManager () {
+    public ConfigManager getConfigManager () {
         return configManager;
     }
 
     private boolean setConfigManager () {
         configManager =  new ConfigManager(this);
         return configManager != null;
+    }
+
+    public tw.at.clo5de.currency.Handler getCurrencyHandler() {
+        return currencyHandler;
+    }
+
+    public boolean setCurrencyHandler (MemorySection currencyConfig) {
+        currencyHandler = new tw.at.clo5de.currency.Handler(currencyConfig);
+        return currencyHandler != null;
     }
 }

@@ -1,6 +1,5 @@
-name: TraditionalEconomy
+name: EconomyExtended
 version: 0.0.0
 author: clo5de
-main: tw.at.clo5de.TraditionalEconomy
+main: tw.at.clo5de.EconomyExtended
 depend: [ Vault, Kycraft ]
-load: STARTUP
