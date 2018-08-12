@@ -23,6 +23,8 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Handler implements Listener {
 
+    private Listener listener = null;
+    private EssentialInvoke essInvoker = null;
     // public ArrayList<CurrencyChain> chains = new ArrayList<>();
     public CurrencyChain chain = null;
     public Map<String, Currency> currencies = new HashMap<>();
@@ -31,79 +33,12 @@ public class Handler implements Listener {
 
     public Handler (MemorySection config) {
         if (currenciesLoad(config) && chainLoad() && setupLoad(config)) {
-            getServer().getPluginManager().registerEvents(this, EconomyExtended.INSTANCE);
-            new EssentialsInvoke();
+            listener = new Listener(this);
+            essInvoker = new EssentialsInvoke();
         } else {
             EconomyExtended.INSTANCE._getLogger().warning("There is some field missed, maybe check your config is at latest version.");
             getServer().getPluginManager().disablePlugin(EconomyExtended.INSTANCE);
         }
-    }
-
-    @EventHandler
-    public void onPlayerJoin (PlayerJoinEvent event) {
-        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, new Runnable(){
-            public void run(){
-                //Here your code that you want to run after the delay
-                try {
-                    invokePlayerBalance((Player) event.getPlayer());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 5L);//20L = 1 sec
-    }
-
-    @EventHandler
-    public void onPlayerOpenInventory (InventoryOpenEvent event) {
-        invokePlayerBalance((Player) event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerCloseInventory (InventoryCloseEvent event) {
-        invokePlayerBalance((Player) event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerDropItem (PlayerDropItemEvent event) {
-        if (chain.containCurrency(event.getItemDrop())) {
-            invokePlayerBalance(event.getPlayer());
-        }
-    }
-
-    @EventHandler
-    public void onPlayerPickItem (EntityPickupItemEvent event) {
-        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, new Runnable(){
-            public void run(){
-                //Here your code that you want to run after the delay
-                try {
-                    if (event.getEntity() instanceof Player && chain.containCurrency(event.getItem())) {
-                        Player player = (Player) event.getEntity();
-                        invokePlayerBalance(player);
-                        if (autoConvert) {
-                            convertCurrencies(player);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 5L);//20L = 1 sec
-    }
-
-    @EventHandler
-    public void onPlayerUseItem (PlayerInteractEvent event) {
-        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, new Runnable(){
-            public void run(){
-                //Here your code that you want to run after the delay
-                try {
-                    if (chain.containCurrency(event.getItem())) {
-                        invokePlayerBalance((Player) event.getPlayer());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 5L);//20L = 1 sec
     }
 
     public void invokePlayerBalance (Player player) {

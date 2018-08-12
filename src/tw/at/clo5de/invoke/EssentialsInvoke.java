@@ -19,7 +19,7 @@ public class EssentialsInvoke implements Listener {
     }
 
     @EventHandler
-    public void onPlayerBalanceUpdate(UserBalanceUpdateEvent event) {
+    public void onPlayerBalanceUpdate (UserBalanceUpdateEvent event) {
         BigDecimal invBalance = new BigDecimal(EconomyExtended.INSTANCE.getCurrencyHandler().calculateInventoryCurrency(event.getPlayer().getInventory()));
         BigDecimal balance = event.getNewBalance();
         int compare = invBalance.compareTo(balance);
