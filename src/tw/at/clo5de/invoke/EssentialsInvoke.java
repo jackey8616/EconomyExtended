@@ -26,7 +26,8 @@ public class EssentialsInvoke implements Listener {
         if (compare < 0) {
             EconomyExtended.INSTANCE.getCurrencyHandler().givePlayerMissedCurrency(event.getPlayer(), balance.subtract(invBalance).abs().longValue());
         } else if (compare > 0) {
-            EconomyExtended.INSTANCE.getCurrencyHandler().removePlayerSurplusCurrency(event.getPlayer(), balance.subtract(invBalance).abs().longValue());
+            EconomyExtended.INSTANCE.getCurrencyHandler().removePlayerSurplusCurrency(event.getPlayer(), balance.longValue());
+            // EconomyExtended.INSTANCE.getCurrencyHandler().removePlayerSurplusCurrency(event.getPlayer(), balance.subtract(invBalance).abs().longValue());
         }
     }
 

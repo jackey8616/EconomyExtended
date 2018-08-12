@@ -1,0 +1,18 @@
+Setting:
+  Debug: true
+Currency:
+  Kyc:
+  - ItemKey: COPPER_GRAIN
+    MaxAmount: 10
+    NextCurrency: COPPER_INGOT
+  - ItemKey: COPPER_INGOT
+    MaxAmount: 10
+    PrevCurrency: COPPER_GRAIN
+    NextCurrency: SLIVER_INGOT
+  - ItemKey: SLIVER_INGOT
+    MaxAmount: 10
+    PrevCurrency: COPPER_INGOT
+    NextCurrency: GOLD_INGOT
+  - ItemKey: GOLD_INGOT
+    MaxAmount: 10
+    PrevCurrency: SLIVER_INGOT

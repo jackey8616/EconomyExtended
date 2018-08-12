@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import tw.at.clo5de.player.Handler;
 import tw.at.clo5de.utils.ConfigManager;
 
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ public class EconomyExtended extends JavaPlugin {
     private Economy economy = null;
 
     private ConfigManager configManager = null;
-    private tw.at.clo5de.currency.Handler currencyHandler = null;
+    private Handler currencyHandler = null;
 
     @Override
     public void onEnable () {
@@ -92,12 +93,12 @@ public class EconomyExtended extends JavaPlugin {
         return configManager != null;
     }
 
-    public tw.at.clo5de.currency.Handler getCurrencyHandler() {
+    public Handler getCurrencyHandler() {
         return currencyHandler;
     }
 
     public boolean setCurrencyHandler (MemorySection currencyConfig) {
-        currencyHandler = new tw.at.clo5de.currency.Handler(currencyConfig);
+        currencyHandler = new Handler(currencyConfig);
         return currencyHandler != null;
     }
 }

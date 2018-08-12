@@ -1,4 +1,4 @@
-package tw.at.clo5de.currency;
+package tw.at.clo5de.player;
 
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
@@ -13,6 +13,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import tw.at.clo5de.EconomyExtended;
+import tw.at.clo5de.currency.Currency;
+import tw.at.clo5de.currency.CurrencyChain;
 import tw.at.clo5de.invoke.EssentialsInvoke;
 
 import java.util.*;
@@ -108,6 +110,16 @@ public class Handler implements Listener {
         }
     }
 
+    public ArrayList<ItemStack> filteInventory (Inventory inv) {
+        ArrayList<ItemStack> isl = new ArrayList<>();
+        for (ItemStack is : inv.getContents()) {
+            if (chain.containCurrency(is)) {
+                isl.add(is);
+            }
+        }
+        return isl;
+    }
+
     public void givePlayerMissedCurrency(Player player, long amount) {
         /*
         for (CurrencyChain cc : chains) {
@@ -122,9 +134,10 @@ public class Handler implements Listener {
     }
 
     public void removePlayerSurplusCurrency(Player player, long amount) {
-        for (ItemStack is : chain.getEqualCurrency(amount)) {
-            player.getInventory().removeItem(is);
+        for (ItemStack is : filteInventory(player.getInventory())) {
+            player.getInventory().remove(is);
         }
+        this.givePlayerMissedCurrency(player, amount);
     }
 
     public long calculateInventoryCurrency(Inventory inv) {
@@ -138,8 +151,8 @@ public class Handler implements Listener {
         return amount;
     }
 
-    private List<Currency> getTopStack(ItemStack is, ArrayList<Currency> concat) {
-        Currency c = this.currencies.get(is.getItemMeta().getDisplayName());
+    private List<Currency> getTopStack(ItemStack is, ArrayList<tw.at.clo5de.currency.Currency> concat) {
+        tw.at.clo5de.currency.Currency c = this.currencies.get(is.getItemMeta().getDisplayName());
         concat.add(c);
         return c.isTop() ? concat : getTopStack(c.getNextItemStack(), concat);
     }
@@ -151,7 +164,7 @@ public class Handler implements Listener {
         }
         List list = config.getList("Kyc");
         for (int i = 0; i < list.size(); ++i) {
-            Currency c = new Currency((Map) list.get(i));
+            tw.at.clo5de.currency.Currency c = new tw.at.clo5de.currency.Currency((Map) list.get(i));
             currencies.put(c.getName(), c);
         }
         return true;
@@ -159,7 +172,7 @@ public class Handler implements Listener {
 
     private boolean chainLoad () {
         for (Iterator it = this.currencies.keySet().iterator(); it.hasNext();) {
-            Currency c = this.currencies.get(it.next());
+            tw.at.clo5de.currency.Currency c = this.currencies.get(it.next());
             if (c.isBase()) {
                 ArrayList<Currency> chainList = new ArrayList<>();
                 getTopStack(c.getThisItemStack(), chainList);
