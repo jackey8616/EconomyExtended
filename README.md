@@ -1,4 +1,4 @@
-# TraditionalEconomy
+# EconomyExtended
 
 Develop version: Spigot 1.12.2  
 Dependcies: 
