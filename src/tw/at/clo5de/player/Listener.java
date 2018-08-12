@@ -1,78 +1,80 @@
+package tw.at.clo5de.player;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import tw.at.clo5de.EconomyExtended;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Listener implements org.bukkit.event.Listener {
 
     private tw.at.clo5de.player.Handler playerHandler = null;
 
     public Listener (tw.at.clo5de.player.Handler handler) {
-        this.handler = handler;
+        this.playerHandler = handler;
         getServer().getPluginManager().registerEvents(this, EconomyExtended.INSTANCE);
     }
 
     @EventHandler
     public void onPlayerJoin (PlayerJoinEvent event) {
-        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, new Runnable(){
-            public void run(){
-                //Here your code that you want to run after the delay
-                try {
-                    handler.invokePlayerBalance((Player) event.getPlayer());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, () -> {
+            try {
+                playerHandler.invokePlayerBalance((Player) event.getPlayer());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, 5L);//20L = 1 sec
+        }, 5L);
     }
 
     @EventHandler
     public void onPlayerOpenInventory (InventoryOpenEvent event) {
-        handler.invokePlayerBalance((Player) event.getPlayer());
+        playerHandler.invokePlayerBalance((Player) event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerCloseInventory (InventoryCloseEvent event) {
-        handler.invokePlayerBalance((Player) event.getPlayer());
+        playerHandler.invokePlayerBalance((Player) event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerDropItem (PlayerDropItemEvent event) {
-        if (handler.chain.containCurrency(event.getItemDrop())) {
-            handler.invokePlayerBalance(event.getPlayer());
+        if (playerHandler.chain.containCurrency(event.getItemDrop())) {
+            playerHandler.invokePlayerBalance(event.getPlayer());
         }
     }
 
     @EventHandler
     public void onPlayerPickItem (EntityPickupItemEvent event) {
-        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, new Runnable(){
-            public void run(){
-                //Here your code that you want to run after the delay
-                try {
-                    if (event.getEntity() instanceof Player && handler.chain.containCurrency(event.getItem())) {
-                        Player player = (Player) event.getEntity();
-                        handler.invokePlayerBalance(player);
-                        if (autoConvert) {
-                            handler.convertCurrencies(player);
-                        }
+        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, () -> {
+            try {
+                if (event.getEntity() instanceof Player && playerHandler.chain.containCurrency(event.getItem())) {
+                    Player player = (Player) event.getEntity();
+                    playerHandler.invokePlayerBalance(player);
+                    if (playerHandler.autoConvert) {
+                        playerHandler.convertCurrencies(player);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }, 5L);//20L = 1 sec
     }
 
     @EventHandler
     public void onPlayerUseItem (PlayerInteractEvent event) {
-        getServer().getScheduler().scheduleSyncDelayedTask(EconomyExtended.INSTANCE, new Runnable(){
-            public void run(){
-                //Here your code that you want to run after the delay
-                try {
-                    if (handler.chain.containCurrency(event.getItem())) {
-                        handler.invokePlayerBalance((Player) event.getPlayer());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        try {
+            if (playerHandler.chain.containCurrency(event.getItem())) {
+                playerHandler.invokePlayerBalance((Player) event.getPlayer());
             }
-        }, 5L);//20L = 1 sec
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

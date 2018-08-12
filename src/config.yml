@@ -1,7 +1,10 @@
 Setting:
   Debug: true
 Currency:
+  # Automatically convert the currencies to next one, when match MaxAmount
   AutoConvert: true
+  # Prevent any interact action of currencies.
+  PreventInteract: true
   Kyc:
   - ItemKey: COPPER_GRAIN
     MaxAmount: 10

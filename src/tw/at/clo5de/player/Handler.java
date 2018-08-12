@@ -2,14 +2,6 @@ package tw.at.clo5de.player;
 
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import tw.at.clo5de.EconomyExtended;
@@ -21,10 +13,10 @@ import java.util.*;
 
 import static org.bukkit.Bukkit.getServer;
 
-public class Handler implements Listener {
+public class Handler {
 
-    private Listener listener = null;
-    private EssentialInvoke essInvoker = null;
+    private tw.at.clo5de.player.Listener listener = null;
+    private EssentialsInvoke essInvoker = null;
     // public ArrayList<CurrencyChain> chains = new ArrayList<>();
     public CurrencyChain chain = null;
     public Map<String, Currency> currencies = new HashMap<>();
@@ -33,7 +25,7 @@ public class Handler implements Listener {
 
     public Handler (MemorySection config) {
         if (currenciesLoad(config) && chainLoad() && setupLoad(config)) {
-            listener = new Listener(this);
+            listener = new tw.at.clo5de.player.Listener(this);
             essInvoker = new EssentialsInvoke();
         } else {
             EconomyExtended.INSTANCE._getLogger().warning("There is some field missed, maybe check your config is at latest version.");
