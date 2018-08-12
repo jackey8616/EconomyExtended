@@ -1,6 +1,7 @@
 Setting:
   Debug: true
 Currency:
+  AutoConvert: true
   Kyc:
   - ItemKey: COPPER_GRAIN
     MaxAmount: 10

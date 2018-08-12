@@ -27,11 +27,14 @@ public class Handler implements Listener {
     public CurrencyChain chain = null;
     public Map<String, Currency> currencies = new HashMap<>();
 
+    public boolean autoConvert = true;
+
     public Handler (MemorySection config) {
-        if (currenciesLoad(config) && chainLoad()) {
+        if (currenciesLoad(config) && chainLoad() && setupLoad(config)) {
             getServer().getPluginManager().registerEvents(this, EconomyExtended.INSTANCE);
             new EssentialsInvoke();
         } else {
+            EconomyExtended.INSTANCE._getLogger().warning("There is some field missed, maybe check your config is at latest version.");
             getServer().getPluginManager().disablePlugin(EconomyExtended.INSTANCE);
         }
     }
@@ -76,6 +79,9 @@ public class Handler implements Listener {
                     if (event.getEntity() instanceof Player && chain.containCurrency(event.getItem())) {
                         Player player = (Player) event.getEntity();
                         invokePlayerBalance(player);
+                        if (autoConvert) {
+                            convertCurrencies(player);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -110,7 +116,7 @@ public class Handler implements Listener {
         }
     }
 
-    public ArrayList<ItemStack> filteInventory (Inventory inv) {
+    public ArrayList<ItemStack> filterInventory (Inventory inv) {
         ArrayList<ItemStack> isl = new ArrayList<>();
         for (ItemStack is : inv.getContents()) {
             if (chain.containCurrency(is)) {
@@ -131,13 +137,26 @@ public class Handler implements Listener {
         for (ItemStack is : chain.getEqualCurrency(amount)) {
             player.getInventory().addItem(is);
         }
+        if (this.autoConvert) {
+            this.convertCurrencies (player);
+        }
     }
 
     public void removePlayerSurplusCurrency(Player player, long amount) {
-        for (ItemStack is : filteInventory(player.getInventory())) {
+        for (ItemStack is : filterInventory(player.getInventory())) {
             player.getInventory().remove(is);
         }
         this.givePlayerMissedCurrency(player, amount);
+    }
+
+    public void convertCurrencies (Player player) {
+        long amount = calculateInventoryCurrency(player.getInventory());
+        for (ItemStack is : filterInventory(player.getInventory())) {
+            player.getInventory().removeItem(is);
+        }
+        for (ItemStack is : chain.getEqualCurrency(amount)) {
+            player.getInventory().addItem(is);
+        }
     }
 
     public long calculateInventoryCurrency(Inventory inv) {
@@ -184,4 +203,12 @@ public class Handler implements Listener {
         return false;
     }
 
+    private boolean setupLoad (MemorySection config) {
+        try {
+            this.autoConvert = config.getBoolean("AutoConvert");
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

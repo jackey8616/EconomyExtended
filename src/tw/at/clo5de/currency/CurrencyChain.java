@@ -34,6 +34,19 @@ public class CurrencyChain {
         return 0L;
     }
 
+    public Map<Long, Currency> getMap () {
+        return this.amountMap;
+    }
+
+    public Currency getCurrencyByItemStack (ItemStack is) {
+        for (Currency c : currencies) {
+            if (c.getName().equals(is.getItemMeta().getDisplayName())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public List<ItemStack> getEqualCurrency (long amount) {
         ArrayList<ItemStack> list = new ArrayList<>();
         ArrayList<Long> reverse = new ArrayList<>(amountMap.keySet());

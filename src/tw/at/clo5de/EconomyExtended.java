@@ -2,11 +2,13 @@ package tw.at.clo5de;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import tw.at.clo5de.metrics.Metrics;
 import tw.at.clo5de.player.Handler;
 import tw.at.clo5de.utils.ConfigManager;
 
@@ -24,6 +26,7 @@ public class EconomyExtended extends JavaPlugin {
 
     @Override
     public void onEnable () {
+        Metrics metrics = new Metrics(this);
         INSTANCE = this;
         if (getServer().getPluginManager().getPlugin("Kycraft") == null) {
             logger.warning("Kycraft is needed! Please make sure your server install it.");
