@@ -1,13 +1,10 @@
-package tw.at.clo5de.player;
+package tw.at.clo5de.currency;
 
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import tw.at.clo5de.EconomyExtended;
-import tw.at.clo5de.currency.Currency;
-import tw.at.clo5de.currency.CurrencyChain;
-import tw.at.clo5de.invoke.EssentialsInvoke;
 
 import java.util.*;
 
@@ -15,8 +12,7 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Handler {
 
-    private tw.at.clo5de.player.Listener listener = null;
-    private EssentialsInvoke essInvoker = null;
+    private Listener listener = null;
     // public ArrayList<CurrencyChain> chains = new ArrayList<>();
     public CurrencyChain chain = null;
     public Map<String, Currency> currencies = new HashMap<>();
@@ -25,21 +21,20 @@ public class Handler {
 
     public Handler (MemorySection config) {
         if (currenciesLoad(config) && chainLoad() && setupLoad(config)) {
-            listener = new tw.at.clo5de.player.Listener(this);
-            essInvoker = new EssentialsInvoke();
+            listener = new Listener(this);
         } else {
-            EconomyExtended.INSTANCE._getLogger().warning("There is some field missed, maybe check your config is at latest version.");
+            EconomyExtended.logger.warning("There is some field missed, maybe check your config is at latest version.");
             getServer().getPluginManager().disablePlugin(EconomyExtended.INSTANCE);
         }
     }
 
     public void invokePlayerBalance (Player player) {
         long amount = calculateInventoryCurrency(player.getInventory());
-        double balance = EconomyExtended.INSTANCE.getEconomy().getBalance(player);
+        double balance = EconomyExtended.vaultInvoke.getEconomy().getBalance(player);
         if (balance > amount) {
-            EconomyExtended.INSTANCE.getEconomy().withdrawPlayer(player, balance - amount);
+            EconomyExtended.vaultInvoke.getEconomy().withdrawPlayer(player, balance - amount);
         } else {
-            EconomyExtended.INSTANCE.getEconomy().depositPlayer(player, amount - balance);
+            EconomyExtended.vaultInvoke.getEconomy().depositPlayer(player, amount - balance);
         }
     }
 
@@ -97,20 +92,20 @@ public class Handler {
         return amount;
     }
 
-    private List<Currency> getTopStack(ItemStack is, ArrayList<tw.at.clo5de.currency.Currency> concat) {
-        tw.at.clo5de.currency.Currency c = this.currencies.get(is.getItemMeta().getDisplayName());
+    private List<Currency> getTopStack(ItemStack is, ArrayList<Currency> concat) {
+        Currency c = this.currencies.get(is.getItemMeta().getDisplayName());
         concat.add(c);
         return c.isTop() ? concat : getTopStack(c.getNextItemStack(), concat);
     }
 
     private boolean currenciesLoad(MemorySection config) {
         if (config.get("Kyc") == null) {
-            EconomyExtended.INSTANCE._getLogger().warning("Can not find Kyc setting in Currency config.");
+            EconomyExtended.logger.warning("Can not find Kyc setting in Currency config.");
             return false;
         }
         List list = config.getList("Kyc");
         for (int i = 0; i < list.size(); ++i) {
-            tw.at.clo5de.currency.Currency c = new tw.at.clo5de.currency.Currency((Map) list.get(i));
+            Currency c = new Currency((Map) list.get(i));
             currencies.put(c.getName(), c);
         }
         return true;
@@ -118,7 +113,7 @@ public class Handler {
 
     private boolean chainLoad () {
         for (Iterator it = this.currencies.keySet().iterator(); it.hasNext();) {
-            tw.at.clo5de.currency.Currency c = this.currencies.get(it.next());
+            Currency c = this.currencies.get(it.next());
             if (c.isBase()) {
                 ArrayList<Currency> chainList = new ArrayList<>();
                 getTopStack(c.getThisItemStack(), chainList);

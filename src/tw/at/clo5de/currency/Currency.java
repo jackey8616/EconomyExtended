@@ -1,6 +1,5 @@
 package tw.at.clo5de.currency;
 
-import com.kunyihua.crafte.api.Bukkit.BukkitKyctAPI;
 import org.bukkit.inventory.ItemStack;
 import tw.at.clo5de.EconomyExtended;
 
@@ -21,20 +20,19 @@ public class Currency {
 
     public Currency (String thisName, String nextName, String prevName, long maxAmount) {
         try {
-            BukkitKyctAPI kycAPI = new BukkitKyctAPI();
-            this.thisItemStack = kycAPI.getItemByItemKey(this.thisItemKey = thisName);
-            this.nextItemStack = kycAPI.getItemByItemKey(this.nextItemKey = nextName);
-            this.prevItemStack = kycAPI.getItemByItemKey(this.prevItemKey = prevName);
+            this.thisItemStack = EconomyExtended.kycraftInvoke.getApi().getItemByItemKey(this.thisItemKey = thisName);
+            this.nextItemStack = EconomyExtended.kycraftInvoke.getApi().getItemByItemKey(this.nextItemKey = nextName);
+            this.prevItemStack = EconomyExtended.kycraftInvoke.getApi().getItemByItemKey(this.prevItemKey = prevName);
             this.maxAmount = maxAmount;
-            if (EconomyExtended.INSTANCE.getConfigManager().debug && (this.nextItemStack == null || this.prevItemStack == null)) {
-                EconomyExtended.INSTANCE._getLogger().warning(
+            if (EconomyExtended.configManager.debug && (this.nextItemStack == null || this.prevItemStack == null)) {
+                EconomyExtended.logger.warning(
                         String.format("Detected currency with no prev / next currency: [%s], next: [%s], prev: [%s]",
                                 this.thisItemKey, this.nextItemKey, this.prevItemKey));
             }
 
             this.thisItemStack.getType();
         } catch (Exception e) {
-            if (EconomyExtended.INSTANCE.getConfigManager().debug) {
+            if (EconomyExtended.configManager.debug) {
                 e.printStackTrace();
             }
         }

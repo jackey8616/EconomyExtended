@@ -1,4 +1,4 @@
-package tw.at.clo5de.player;
+package tw.at.clo5de.currency;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,9 +14,9 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Listener implements org.bukkit.event.Listener {
 
-    private tw.at.clo5de.player.Handler playerHandler = null;
+    private Handler playerHandler = null;
 
-    public Listener (tw.at.clo5de.player.Handler handler) {
+    public Listener (Handler handler) {
         this.playerHandler = handler;
         getServer().getPluginManager().registerEvents(this, EconomyExtended.INSTANCE);
     }
