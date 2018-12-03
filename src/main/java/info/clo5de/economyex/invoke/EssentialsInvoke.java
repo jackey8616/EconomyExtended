@@ -25,7 +25,7 @@ public class EssentialsInvoke implements Listener {
 
     @EventHandler
     public void onPlayerBalanceUpdate (UserBalanceUpdateEvent event) {
-        try {
+        if (event.getPlayer().isOnline()) {
             BigDecimal invBalance = new BigDecimal(EconomyExtended.currencyHandler.calculateInventoryCurrency(event.getPlayer().getInventory()));
             BigDecimal balance = event.getNewBalance();
             int compare = invBalance.compareTo(balance);
@@ -35,9 +35,6 @@ public class EssentialsInvoke implements Listener {
                 EconomyExtended.currencyHandler.removePlayerSurplusCurrency(event.getPlayer(), balance.longValue());
                 // EconomyExtended.INSTANCE.getCurrencyHandler().removePlayerSurplusCurrency(event.getPlayer(), balance.subtract(invBalance).abs().longValue());
             }
-        } catch (Exception e) {
-            System.out.printf("DisplayName: %s , Old Amount: %d, New Amount: %d", event.getPlayer().getDisplayName(), event.getOldBalance(), event.getNewBalance());
-            e.printStackTrace();
         }
     }
 

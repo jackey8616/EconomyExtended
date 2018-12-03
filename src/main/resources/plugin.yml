@@ -1,5 +1,5 @@
 name: EconomyExtended
-version: 0.0.22
+version: 0.0.23
 author: clo5de
 main: info.clo5de.economyex.EconomyExtended
 depend: [ Vault, Kycraft, Essentials ]
