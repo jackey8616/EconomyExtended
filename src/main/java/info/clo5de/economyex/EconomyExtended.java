@@ -1,11 +1,12 @@
-package tw.at.clo5de;
+package info.clo5de.economyex;
 
+import info.clo5de.economyex.currency.Handler;
+import info.clo5de.economyex.invoke.KycraftInvoke;
+import info.clo5de.economyex.invoke.VaultInvoke;
+import info.clo5de.economyex.metrics.Metrics;
+import info.clo5de.economyex.utils.ConfigManager;
+import info.clo5de.economyex.invoke.EssentialsInvoke;
 import org.bukkit.plugin.java.JavaPlugin;
-import tw.at.clo5de.invoke.EssentialsInvoke;
-import tw.at.clo5de.invoke.KycraftInvoke;
-import tw.at.clo5de.invoke.VaultInvoke;
-import tw.at.clo5de.metrics.Metrics;
-import tw.at.clo5de.utils.ConfigManager;
 
 import java.util.logging.Logger;
 
@@ -18,9 +19,9 @@ public class EconomyExtended extends JavaPlugin {
     public static EssentialsInvoke essentialsInvoke = new EssentialsInvoke();
     public static KycraftInvoke kycraftInvoke = new KycraftInvoke();
     public static ConfigManager configManager = null;
-    public static tw.at.clo5de.currency.Handler currencyHandler = null;
+    public static Handler currencyHandler = null;
     // Still developing of trading system.
-    public static tw.at.clo5de.trade.Handler tradeHandler = null;
+    public static info.clo5de.economyex.trade.Handler tradeHandler = null;
 
     @Override
     public void onEnable () {

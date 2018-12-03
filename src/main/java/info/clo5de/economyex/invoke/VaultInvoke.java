@@ -1,9 +1,9 @@
-package tw.at.clo5de.invoke;
+package info.clo5de.economyex.invoke;
 
+import info.clo5de.economyex.EconomyExtended;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import tw.at.clo5de.EconomyExtended;
 
 import static org.bukkit.Bukkit.getServer;
 

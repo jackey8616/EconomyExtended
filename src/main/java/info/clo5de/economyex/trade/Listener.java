@@ -1,10 +1,10 @@
-package tw.at.clo5de.trade;
+package info.clo5de.economyex.trade;
 
+import info.clo5de.economyex.EconomyExtended;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import tw.at.clo5de.EconomyExtended;
 
 import static org.bukkit.Bukkit.getServer;
 

@@ -1,4 +1,4 @@
-package tw.at.clo5de.metrics;
+package info.clo5de.economyex.metrics;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;

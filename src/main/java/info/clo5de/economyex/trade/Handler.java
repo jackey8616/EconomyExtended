@@ -1,4 +1,4 @@
-package tw.at.clo5de.trade;
+package info.clo5de.economyex.trade;
 
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;

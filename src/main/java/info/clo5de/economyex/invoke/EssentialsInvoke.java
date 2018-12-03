@@ -1,9 +1,9 @@
-package tw.at.clo5de.invoke;
+package info.clo5de.economyex.invoke;
 
+import info.clo5de.economyex.EconomyExtended;
 import net.ess3.api.events.UserBalanceUpdateEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import tw.at.clo5de.EconomyExtended;
 
 import java.math.BigDecimal;
 

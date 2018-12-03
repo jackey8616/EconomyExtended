@@ -1,7 +1,9 @@
 .idea/
 TestServer/
 Lib/
+lib/
 out/
+target/
 
 EconomyExtended.iml
 *GRAIN.yml

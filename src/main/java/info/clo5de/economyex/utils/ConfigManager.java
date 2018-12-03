@@ -1,9 +1,9 @@
-package tw.at.clo5de.utils;
+package info.clo5de.economyex.utils;
 
+import info.clo5de.economyex.EconomyExtended;
+import info.clo5de.economyex.currency.Handler;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
-import tw.at.clo5de.EconomyExtended;
-import tw.at.clo5de.currency.Handler;
 
 public class ConfigManager {
 

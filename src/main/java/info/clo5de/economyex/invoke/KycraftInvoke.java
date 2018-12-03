@@ -1,7 +1,7 @@
-package tw.at.clo5de.invoke;
+package info.clo5de.economyex.invoke;
 
 import com.kunyihua.crafte.api.Bukkit.BukkitKyctAPI;
-import tw.at.clo5de.EconomyExtended;
+import info.clo5de.economyex.EconomyExtended;
 
 import static org.bukkit.Bukkit.getServer;
 

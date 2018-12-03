@@ -1,7 +1,7 @@
-package tw.at.clo5de.currency;
+package info.clo5de.economyex.currency;
 
+import info.clo5de.economyex.EconomyExtended;
 import org.bukkit.inventory.ItemStack;
-import tw.at.clo5de.EconomyExtended;
 
 import java.util.Map;
 

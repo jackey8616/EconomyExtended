@@ -1,4 +1,4 @@
-package tw.at.clo5de.currency;
+package info.clo5de.economyex.currency;
 
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;

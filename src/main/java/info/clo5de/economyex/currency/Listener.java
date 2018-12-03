@@ -1,5 +1,6 @@
-package tw.at.clo5de.currency;
+package info.clo5de.economyex.currency;
 
+import info.clo5de.economyex.EconomyExtended;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -8,7 +9,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import tw.at.clo5de.EconomyExtended;
 
 import static org.bukkit.Bukkit.getServer;
 
